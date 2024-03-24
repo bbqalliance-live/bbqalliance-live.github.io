@@ -1,6 +1,6 @@
 # BBQ Alliance results
 
-[View the Results website](https://bbqalliance.github.io/results/)
+[View the Results website](https://live.bbqalliance.co.nz/results)
 
 Hosted on GitHub pages.
 
