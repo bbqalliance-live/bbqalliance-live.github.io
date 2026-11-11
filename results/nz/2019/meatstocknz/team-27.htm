@@ -1,0 +1,607 @@
+
+<html>
+
+<head>
+    <title>Mile marker 66 Results</title>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        body {
+            font-family: sans-serif;
+            width: 90%;
+            margin: 3ex auto;
+        }
+
+        td.error {
+            color: red;
+        }
+
+        td.warning {
+            color: orange;
+        }
+        table {
+            border-collapse: collapse;
+            border: 1px solid #bbb;
+            margin: 2ex 0;
+        }
+
+        table td,
+        table th {
+            border: 1px solid #bbb;
+            padding: 0.5ex 0.5em;
+        }
+
+        table th {
+            font-weight: bold;
+            background-color: #ddd;
+        }
+
+        table tr.placed td {
+            background-color: #ffd;
+        }
+
+        th.left,
+        td.left {
+            text-align: left;
+        }
+
+        th.right,
+        td.right {
+            text-align: right;
+        }
+
+        th.centre,
+        td.centre {
+            text-align: center;
+        }
+        p.debug {
+            font-family: monospace;
+            color: grey;
+        }
+
+        table.header {
+            width: 100%;
+            border: none;
+        }
+        table.header td {
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <table class="header">
+        <tr>
+            <td style="width: 220px;"><img style="align: left;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANUAAAB4CAMAAABSHEeBAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA/ppVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQwIDc5LjE2MDQ1MSwgMjAxNy8wNS8wNi0wMTowODoyMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSJ1dWlkOjVEMjA4OTI0OTNCRkRCMTE5MTRBODU5MEQzMTUwOEM4IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjJDMEVBQTZBRjBGMjExRTdCRUFBQ0JDRTcxN0ZCMzk1IiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjJDMEVBQTY5RjBGMjExRTdCRUFBQ0JDRTcxN0ZCMzk1IiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIElsbHVzdHJhdG9yIENDIDIwMTUgKE1hY2ludG9zaCkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoyOWRjNTQxMy1jNjYwLTRlMzMtODliNS1mMTU0Mzg1ZTE5NGYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5k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" alt="ABA logo" /></td>
+            <td style="vertical-align: bottom; font-size: 200%;"><b>New Zealand BBQ Wars</b><br /><span style="font-size: 65%; line-height: 140%;">
+                ASB Showgrounds, Greenlane, Auckland<br />
+                Fri 15 Feb &mdash; Sun 17 Feb</span></td>
+        </tr>
+    </table>
+    <hr />
+    
+        <p><a href="./overall.htm">Overall</a>
+        
+            <a style="margin-left: 2em;" href="./protein-1.htm">Chicken</a>
+        
+            <a style="margin-left: 2em;" href="./protein-2.htm">Lamb</a>
+        
+            <a style="margin-left: 2em;" href="./protein-3.htm">Beef</a>
+        
+            <a style="margin-left: 2em;" href="./protein-4.htm">Pork</a>
+        
+            <a style="margin-left: 2em;" href="./protein-5.htm">Pork Ribs</a>
+        
+        </p>
+    
+
+
+
+
+
+<h1>Mile marker 66</h1>
+
+
+    
+
+        
+
+        
+
+            
+                
+
+                    <h2>Chicken: 257</h2>
+
+                    <table>
+                        <tr>
+                            <th class="left" style="min-width: 6em;">Scoring</th>
+                            <th class="centre" style="min-width: 6em;">Appearance</th>
+                            <th class="centre" style="min-width: 6em;">Texture</th>
+                            <th class="centre" style="min-width: 6em;">Taste</th>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #1</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">7</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #2</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #3</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">8</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #4</b></td>
+                            <td class="centre">8</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #5</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">7</td>
+                            <td class="centre">7</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #6</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">7</td>
+                            <td class="centre">8</td>
+                        </tr>
+                        
+                        <tr>
+                            
+                            <td class="left"><b>Discard lowest</b></td>
+                            <td class="centre">(8)</td>
+                            <td class="centre">(7)</td>
+                            <td class="centre">(7)</td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="left"><b>Multiplier</b></td>
+                            <td class="centre"><i>&times;1</i></td>
+                            <td class="centre"><i>&times;2</i></td>
+                            <td class="centre"><i>&times;3</i></td>
+                        </tr>
+
+                        <tr>
+                            <th class="left">Weighted Total</th>
+                            <th class="centre">45</th>
+                            <th class="centre">80</th>
+                            <th class="centre">132</th>
+                        </tr>
+            
+                        
+                    </table>
+                
+            
+
+        
+
+    
+
+
+
+    
+
+        
+
+        
+
+            
+                
+
+                    <h2>Lamb: 272</h2>
+
+                    <table>
+                        <tr>
+                            <th class="left" style="min-width: 6em;">Scoring</th>
+                            <th class="centre" style="min-width: 6em;">Appearance</th>
+                            <th class="centre" style="min-width: 6em;">Texture</th>
+                            <th class="centre" style="min-width: 6em;">Taste</th>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #1</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">8</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #2</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #3</b></td>
+                            <td class="centre">8</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #4</b></td>
+                            <td class="centre">8</td>
+                            <td class="centre">9</td>
+                            <td class="centre">10</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #5</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                            <td class="centre">7</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #6</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">10</td>
+                            <td class="centre">8</td>
+                        </tr>
+                        
+                        <tr>
+                            
+                            <td class="left"><b>Discard lowest</b></td>
+                            <td class="centre">(8)</td>
+                            <td class="centre">(8)</td>
+                            <td class="centre">(7)</td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="left"><b>Multiplier</b></td>
+                            <td class="centre"><i>&times;1</i></td>
+                            <td class="centre"><i>&times;2</i></td>
+                            <td class="centre"><i>&times;3</i></td>
+                        </tr>
+
+                        <tr>
+                            <th class="left">Weighted Total</th>
+                            <th class="centre">45</th>
+                            <th class="centre">92</th>
+                            <th class="centre">135</th>
+                        </tr>
+            
+                        
+                    </table>
+                
+            
+
+        
+
+    
+
+
+
+    
+
+        
+
+        
+
+            
+                
+
+                    <h2>Beef: 252</h2>
+
+                    <table>
+                        <tr>
+                            <th class="left" style="min-width: 6em;">Scoring</th>
+                            <th class="centre" style="min-width: 6em;">Appearance</th>
+                            <th class="centre" style="min-width: 6em;">Texture</th>
+                            <th class="centre" style="min-width: 6em;">Taste</th>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #1</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">8</td>
+                            <td class="centre">7</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #2</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                            <td class="centre">8</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #3</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">7</td>
+                            <td class="centre">8</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #4</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #5</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">6</td>
+                            <td class="centre">7</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #6</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">8</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+                        <tr>
+                            
+                            <td class="left"><b>Discard lowest</b></td>
+                            <td class="centre">(9)</td>
+                            <td class="centre">(6)</td>
+                            <td class="centre">(7)</td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="left"><b>Multiplier</b></td>
+                            <td class="centre"><i>&times;1</i></td>
+                            <td class="centre"><i>&times;2</i></td>
+                            <td class="centre"><i>&times;3</i></td>
+                        </tr>
+
+                        <tr>
+                            <th class="left">Weighted Total</th>
+                            <th class="centre">47</th>
+                            <th class="centre">82</th>
+                            <th class="centre">123</th>
+                        </tr>
+            
+                        
+                    </table>
+                
+            
+
+        
+
+    
+
+
+
+    
+
+        
+
+        
+
+            
+                
+
+                    <h2>Pork: 244</h2>
+
+                    <table>
+                        <tr>
+                            <th class="left" style="min-width: 6em;">Scoring</th>
+                            <th class="centre" style="min-width: 6em;">Appearance</th>
+                            <th class="centre" style="min-width: 6em;">Texture</th>
+                            <th class="centre" style="min-width: 6em;">Taste</th>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #1</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">7</td>
+                            <td class="centre">7</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #2</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">8</td>
+                            <td class="centre">8</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #3</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">7</td>
+                            <td class="centre">6</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #4</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #5</b></td>
+                            <td class="centre">8</td>
+                            <td class="centre">7</td>
+                            <td class="centre">7</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #6</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">8</td>
+                            <td class="centre">8</td>
+                        </tr>
+                        
+                        <tr>
+                            
+                            <td class="left"><b>Discard lowest</b></td>
+                            <td class="centre">(8)</td>
+                            <td class="centre">(7)</td>
+                            <td class="centre">(6)</td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="left"><b>Multiplier</b></td>
+                            <td class="centre"><i>&times;1</i></td>
+                            <td class="centre"><i>&times;2</i></td>
+                            <td class="centre"><i>&times;3</i></td>
+                        </tr>
+
+                        <tr>
+                            <th class="left">Weighted Total</th>
+                            <th class="centre">49</th>
+                            <th class="centre">78</th>
+                            <th class="centre">117</th>
+                        </tr>
+            
+                        
+                    </table>
+                
+            
+
+        
+
+    
+
+
+
+    
+
+        
+
+        
+
+            
+                
+
+                    <h2>Pork Ribs: 282</h2>
+
+                    <table>
+                        <tr>
+                            <th class="left" style="min-width: 6em;">Scoring</th>
+                            <th class="centre" style="min-width: 6em;">Appearance</th>
+                            <th class="centre" style="min-width: 6em;">Texture</th>
+                            <th class="centre" style="min-width: 6em;">Taste</th>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #1</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                            <td class="centre">10</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #2</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #3</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">9</td>
+                            <td class="centre">8</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #4</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">10</td>
+                            <td class="centre">10</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #5</b></td>
+                            <td class="centre">10</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+
+                        <tr>
+                            <td class="left"><b>Portion #6</b></td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                            <td class="centre">9</td>
+                        </tr>
+                        
+                        <tr>
+                            
+                            <td class="left"><b>Discard lowest</b></td>
+                            <td class="centre">(9)</td>
+                            <td class="centre">(9)</td>
+                            <td class="centre">(8)</td>
+                            
+                        </tr>
+                        <tr>
+                            <td class="left"><b>Multiplier</b></td>
+                            <td class="centre"><i>&times;1</i></td>
+                            <td class="centre"><i>&times;2</i></td>
+                            <td class="centre"><i>&times;3</i></td>
+                        </tr>
+
+                        <tr>
+                            <th class="left">Weighted Total</th>
+                            <th class="centre">49</th>
+                            <th class="centre">92</th>
+                            <th class="centre">141</th>
+                        </tr>
+            
+                        
+                    </table>
+                
+            
+
+        
+
+    
+
+<hr style="clear: both;" />
+
+<p style="font-size: 75%; color: grey;">Copyright © 2019 Australasian Barbecue Alliance</p>
+</body>
+</html>
